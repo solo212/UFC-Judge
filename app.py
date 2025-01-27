@@ -4,15 +4,15 @@ import joblib
 
 @st.cache_resource
 def load_models():
-    # Update paths if `models` is not in the same directory as `app.py`
+  
     rf_model = joblib.load('./models/random_forest_model.pkl')
     gb_model = joblib.load('./models/gradient_boosting_model.pkl')
     return rf_model, gb_model
 
 @st.cache_resource
 def load_feature_names():
-    # Update the path if needed
-    with open("models/feature_names.txt", "r") as f:
+ 
+    with open("./models/feature_names.txt", "r") as f:
         return [line.strip() for line in f]
 
 def preprocess_input(data, feature_names):
@@ -22,7 +22,7 @@ def preprocess_input(data, feature_names):
             data[[col + "_Attempted", col + "_Landed"]] = data[col].str.split(" of ", expand=True).astype(int)
 
         data.drop(columns=columns_to_split, inplace=True)
-        data = data[feature_names]  # Select only feature columns
+        data = data[feature_names]  
         return data
     except KeyError as e:
         st.error(f"Missing or misnamed columns in input data: {e}")
