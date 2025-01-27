@@ -9,7 +9,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    # Redirect to Streamlit app root
+  
     return RedirectResponse("/")
 
 @app.on_event("startup")
