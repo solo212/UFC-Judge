@@ -1,14 +1,9 @@
 {
     "version": 2,
-    "functions": {
-      "api/server.py": {
-        "runtime": "python3.9"
-      }
-    },
-    "routes": [
+    "builds": [
       {
-        "src": "/(.*)",
-        "dest": "api/server.py"
+        "src": "Dockerfile",
+        "use": "@vercel/docker"
       }
     ]
   }
