@@ -4,7 +4,7 @@ import seaborn as sns
 import numpy as np
 import os
 
-# File paths
+
 DATA_PATH = "../data/cleaned_fight_data.csv"
 
 def load_data(data_path):
@@ -39,7 +39,7 @@ def plot_class_balance(df):
 def visualize_correlation(df):
     """Generate a heatmap for feature correlation."""
     plt.figure(figsize=(12, 10))
-    # Select only numeric columns for correlation
+   
     numeric_df = df.select_dtypes(include=['float64', 'int64'])
     correlation = numeric_df.corr()
     sns.heatmap(correlation, annot=False, cmap="coolwarm", cbar=True)
@@ -66,7 +66,7 @@ def compare_features(df, features):
 def feature_engineering(df):
     """Create new features to enhance the dataset."""
     print("\n--- Feature Engineering ---")
-    # Check and create features only if the columns exist
+   
     if 'R_Reach_cms' in df.columns and 'B_Reach_cms' in df.columns:
         df['Reach_Advantage'] = df['R_Reach_cms'] - df['B_Reach_cms']
     else:
@@ -77,7 +77,7 @@ def feature_engineering(df):
     else:
         print("Skipping Height Advantage: Missing 'R_Height_cms' or 'B_Height_cms'.")
     
-    # Add other features
+  
     if 'R_age' in df.columns and 'B_age' in df.columns:
         df['Age_Difference'] = df['R_age'] - df['B_age']
 
@@ -101,22 +101,22 @@ if __name__ == "__main__":
     if not os.path.exists(DATA_PATH):
         print(f"Data not found at {DATA_PATH}. Please check the file path.")
     else:
-        # Load and preprocess the dataset
+      
         df = load_data(DATA_PATH)
         df = preprocess_percentages(df)
 
-        # Perform EDA
+      
         summarize_data(df)
         plot_class_balance(df)
         visualize_correlation(df)
 
-        # Feature comparisons
+    
         compare_features(df, ['Height_cms', 'Reach_cms', 'SIG_STR_pct', 'TD_pct'])
 
-        # Feature engineering
+      
         df = feature_engineering(df)
 
-        # Save the enhanced dataset
+      
         enhanced_data_path = "../data/enhanced_fight_data.csv"
         df.to_csv(enhanced_data_path, index=False)
         print(f"Enhanced dataset saved to {enhanced_data_path}")
