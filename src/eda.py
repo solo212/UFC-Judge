@@ -14,7 +14,7 @@ def load_data(data_path):
 def preprocess_percentages(df):
     """Convert percentage columns to numeric, handling invalid values."""
     if 'R_TD_pct' in df.columns and 'B_TD_pct' in df.columns:
-        # Replace invalid values like '---' with NaN
+      
         df['R_TD_pct'] = pd.to_numeric(df['R_TD_pct'].str.rstrip('%'), errors='coerce') / 100
         df['B_TD_pct'] = pd.to_numeric(df['B_TD_pct'].str.rstrip('%'), errors='coerce') / 100
     return df
