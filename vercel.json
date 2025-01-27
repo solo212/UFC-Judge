@@ -2,7 +2,7 @@
     "version": 2,
     "functions": {
       "api/server.py": {
-        "runtime": "vercel-python@0.5.2"
+        "runtime": "python3.9"
       }
     },
     "routes": [
@@ -12,4 +12,5 @@
       }
     ]
   }
+  
   
