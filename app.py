@@ -5,7 +5,7 @@ import os
 
 @st.cache_resource
 def load_models():
- 
+    # Use dynamic paths to ensure compatibility
     base_dir = os.path.dirname(os.path.abspath(__file__))
     rf_model = joblib.load(os.path.join(base_dir, 'models/random_forest_model.pkl'))
     gb_model = joblib.load(os.path.join(base_dir, 'models/gradient_boosting_model.pkl'))
@@ -13,18 +13,22 @@ def load_models():
 
 @st.cache_resource
 def load_feature_names():
-    # Update the path if needed
-    with open("models/feature_names.txt", "r") as f:
+    # Use dynamic paths to ensure compatibility
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    feature_names_path = os.path.join(base_dir, "models/feature_names.txt")
+    with open(feature_names_path, "r") as f:
         return [line.strip() for line in f]
 
 def preprocess_input(data, feature_names):
     try:
-        columns_to_split = ['R_TOTAL_STR.', 'B_TOTAL_STR.']
-        for col in columns_to_split:
-            data[[col + "_Attempted", col + "_Landed"]] = data[col].str.split(" of ", expand=True).astype(int)
-
-        data.drop(columns=columns_to_split, inplace=True)
-        data = data[feature_names]  # Select only feature columns
+        # Ensure the dataset has all required columns
+        missing_columns = [col for col in feature_names if col not in data.columns]
+        if missing_columns:
+            st.error(f"Missing columns in input data: {missing_columns}")
+            return None
+        
+        # Select only feature columns
+        data = data[feature_names]
         return data
     except Exception as e:
         st.error(f"Error during preprocessing: {e}")
